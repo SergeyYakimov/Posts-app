@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {createPost} from '../redux/actions';
 
-export default class PostForm extends Component {
+class PostForm extends Component {
   state = {
     title: ''
   }
@@ -9,12 +11,16 @@ export default class PostForm extends Component {
     event.preventDefault()
     const {title} = this.state
 
+    if (!title.trim()) {
+      return
+    }
+
     const newPost = {
       title,
       id: Date.now().toString()
     }
 
-    console.log(newPost)
+    this.props.createPost(newPost)
 
     this.setState({
       title: ''
@@ -47,3 +53,11 @@ export default class PostForm extends Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    createPost: post => dispatch(createPost(post))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(PostForm)
