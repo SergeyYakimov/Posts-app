@@ -1,7 +1,7 @@
-import {CREATE_POST,
-  FETCH_POSTS,
+import {
+  CREATE_POST,
   HIDE_ALERT,
-  HIDE_LOADER,
+  HIDE_LOADER, REQUEST_POSTS,
   SHOW_ALERT,
   SHOW_LOADER
 } from './types';
@@ -45,23 +45,7 @@ export const hideAlert = () => {
 }
 
 export function fetchPosts() {
-  return async dispatch => {
-    try {
-      dispatch(showLoader())
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/posts?_limit=5'
-      )
-      const json = await response.json()
-
-      dispatch({
-        type: FETCH_POSTS,
-        payload: json
-      })
-
-      dispatch(hideLoader())
-    } catch (e) {
-      dispatch(showAlert('Что-то пошло не так как нужно'))
-      dispatch(hideLoader())
-    }
+  return {
+    type: REQUEST_POSTS
   }
 }
